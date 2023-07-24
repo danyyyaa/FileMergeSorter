@@ -1,3 +1,4 @@
+
 package ru.cft.team.filemerge.util;
 
 import lombok.experimental.UtilityClass;
@@ -9,9 +10,24 @@ import static ru.cft.team.filemerge.util.Constant.SORT_MODE_ASCENDING;
 
 @UtilityClass
 public class MergeSort {
-
     public <T extends Comparable<? super T>> List<T> sort(List<T> data, String sortMode) {
         if (data.size() <= 1) {
+            return data;
+        }
+
+        boolean sorted = true;
+        for (int i = 1; i < data.size(); i++) {
+            T prev = data.get(i - 1);
+            T current = data.get(i);
+            int compareResult = (
+                    sortMode.equals(SORT_MODE_ASCENDING)) ? prev.compareTo(current) : current.compareTo(prev);
+            if (compareResult > 0) {
+                sorted = false;
+                break;
+            }
+        }
+
+        if (sorted) {
             return data;
         }
 
@@ -34,8 +50,8 @@ public class MergeSort {
             T leftElement = left.get(leftIdx);
             T rightElement = right.get(rightIdx);
 
-            int compareResult =
-                    (sortMode.equals(SORT_MODE_ASCENDING)) ? leftElement.compareTo(rightElement) : rightElement.compareTo(leftElement);
+            int compareResult = (sortMode.equals(SORT_MODE_ASCENDING)) ?
+                    leftElement.compareTo(rightElement) : rightElement.compareTo(leftElement);
 
             if (compareResult <= 0) {
                 merged.add(leftElement);
