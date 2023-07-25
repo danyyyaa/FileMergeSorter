@@ -11,4 +11,5 @@ public class Constant {
     public static final String INPUT_DIRECTORY = "src/main/resources/input/";
     public static final String OUTPUT_DIRECTORY = "src/main/resources/output/";
     public static final String TEMP_DIRECTORY = "temp/";
+    public static final int CHUNK_SIZE_DEFAULT = 1000;
 }

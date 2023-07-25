@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
@@ -23,16 +22,14 @@ import static ru.cft.team.filemerge.util.Constant.*;
 public class MergeSort {
     public <T extends Comparable<? super T>> void sort(List<String> filePaths, String sortMode,
                                                        Function<String, ? extends T> parser, String outputFilePath) {
-        int chunkSize = 1000;
-
         try {
             List<String> chunkFilePaths = new ArrayList<>();
 
-            for (int i = 0; i < filePaths.size(); i += chunkSize) {
-                List<String> chunk = filePaths.subList(i, Math.min(i + chunkSize, filePaths.size()));
+            for (int i = 0; i < filePaths.size(); i += CHUNK_SIZE_DEFAULT) {
+                List<String> chunk = filePaths.subList(i, Math.min(i + CHUNK_SIZE_DEFAULT, filePaths.size()));
 
                 List<T> data = readAndParseChunks(chunk, parser);
-                Collections.sort(data);
+                data = mergeSort(data);
 
                 String chunkFilePath = generateTempFilePath(i);
                 chunkFilePaths.add(chunkFilePath);
@@ -46,6 +43,7 @@ public class MergeSort {
                 try {
                     Files.delete(Paths.get(chunkFilePath));
                 } catch (IOException e) {
+                    log.error("File deletion error: " + e.getMessage());
                     throw new FileDeleteException("File deletion error. " + e);
                 }
             });
@@ -61,7 +59,7 @@ public class MergeSort {
     }
 
     private <T> List<T> readAndParseChunks(List<String> filePaths, Function<String, ? extends T> parser) {
-        Objects.requireNonNull(filePaths, "filePaths cannot null");
+        Objects.requireNonNull(filePaths, "filePaths cannot be null");
         Objects.requireNonNull(parser, "parser cannot be null");
 
         List<T> data = new ArrayList<>();
@@ -110,10 +108,56 @@ public class MergeSort {
         }
 
         if (sortMode.equals(SORT_MODE_DESCENDING)) {
-            Collections.reverse(sortedData);
+            List<T> reversedData = new ArrayList<>(sortedData.size());
+            for (int i = sortedData.size() - 1; i >= 0; i--) {
+                reversedData.add(sortedData.get(i));
+            }
+            return reversedData;
         }
 
         return sortedData;
+    }
+
+    private <T extends Comparable<? super T>> List<T> mergeSort(List<T> list) {
+        if (list.size() <= 1) {
+            return list;
+        }
+
+        int middle = list.size() / 2;
+        List<T> leftList = mergeSort(list.subList(0, middle));
+        List<T> rightList = mergeSort(list.subList(middle, list.size()));
+        return merge(leftList, rightList);
+    }
+
+    private <T extends Comparable<? super T>> List<T> merge(List<T> leftList, List<T> rightList) {
+        List<T> result = new ArrayList<>();
+        int leftIndex = 0;
+        int rightIndex = 0;
+
+        while (leftIndex < leftList.size() && rightIndex < rightList.size()) {
+            T leftItem = leftList.get(leftIndex);
+            T rightItem = rightList.get(rightIndex);
+
+            if (leftItem.compareTo(rightItem) <= 0) {
+                result.add(leftItem);
+                leftIndex++;
+            } else {
+                result.add(rightItem);
+                rightIndex++;
+            }
+        }
+
+        while (leftIndex < leftList.size()) {
+            result.add(leftList.get(leftIndex));
+            leftIndex++;
+        }
+
+        while (rightIndex < rightList.size()) {
+            result.add(rightList.get(rightIndex));
+            rightIndex++;
+        }
+
+        return result;
     }
 
     private <T extends Comparable<? super T>> int findMinIndex(List<IndexedBufferedReader<T>> readers, String sortMode) {
@@ -137,7 +181,6 @@ public class MergeSort {
                 })
                 .orElse(-1);
     }
-
 }
 
 class IndexedBufferedReader<T> {
