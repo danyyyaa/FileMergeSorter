@@ -10,7 +10,7 @@ import java.util.Collection;
 
 @UtilityClass
 @Slf4j
-public class FileWriter {
+public class CustomFileWriter {
     public void write(String path, Collection<?> sortedData) {
         try (BufferedWriter writer = new BufferedWriter(new java.io.FileWriter(path))) {
             sortedData.stream()
