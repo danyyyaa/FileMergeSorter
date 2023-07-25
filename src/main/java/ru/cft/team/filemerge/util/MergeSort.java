@@ -1,5 +1,6 @@
 package ru.cft.team.filemerge.util;
 
+import lombok.AllArgsConstructor;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import ru.cft.team.filemerge.exception.FileDeleteException;
@@ -183,14 +184,9 @@ public class MergeSort {
     }
 }
 
+@AllArgsConstructor
 class IndexedBufferedReader<T> {
     BufferedReader bufferedReader;
     T currentItem;
     int index;
-
-    IndexedBufferedReader(BufferedReader bufferedReader, T currentItem, int index) {
-        this.bufferedReader = bufferedReader;
-        this.currentItem = currentItem;
-        this.index = index;
-    }
 }
