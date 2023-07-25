@@ -1,16 +1,25 @@
-
 package ru.cft.team.filemerge.util;
 
 import lombok.experimental.UtilityClass;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 import static ru.cft.team.filemerge.util.Constant.SORT_MODE_ASCENDING;
 
 @UtilityClass
 public class MergeSort {
-    public <T extends Comparable<? super T>> List<T> sort(List<T> data, String sortMode) {
+    public <T extends Comparable<? super T>> List<T> sort(List<String> filePaths, String sortMode, Function<String, ? extends T> parser) {
+        List<T> data = new ArrayList<>();
+        for (String filePath : filePaths) {
+            List<T> fileData = FileReader.read(filePath, parser);
+            data.addAll(fileData);
+        }
+        return mergeSort(data, sortMode);
+    }
+
+    private <T extends Comparable<? super T>> List<T> mergeSort(List<T> data, String sortMode) {
         if (data.size() <= 1) {
             return data;
         }
@@ -19,8 +28,7 @@ public class MergeSort {
         for (int i = 1; i < data.size(); i++) {
             T prev = data.get(i - 1);
             T current = data.get(i);
-            int compareResult = (
-                    sortMode.equals(SORT_MODE_ASCENDING)) ? prev.compareTo(current) : current.compareTo(prev);
+            int compareResult = (sortMode.equals(SORT_MODE_ASCENDING)) ? prev.compareTo(current) : current.compareTo(prev);
             if (compareResult > 0) {
                 sorted = false;
                 break;
@@ -35,8 +43,8 @@ public class MergeSort {
         List<T> left = new ArrayList<>(data.subList(0, mid));
         List<T> right = new ArrayList<>(data.subList(mid, data.size()));
 
-        left = sort(left, sortMode);
-        right = sort(right, sortMode);
+        left = mergeSort(left, sortMode);
+        right = mergeSort(right, sortMode);
 
         return merge(left, right, sortMode);
     }

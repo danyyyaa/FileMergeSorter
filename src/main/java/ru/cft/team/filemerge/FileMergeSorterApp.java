@@ -18,7 +18,6 @@ public class FileMergeSorterApp {
 
         List<String> arguments = List.copyOf(List.of(args));
 
-
         if (arguments.size() < 2) {
             log.error("Insufficient arguments passed." +
                     " Usage: java FileMergeSort <-a/-d> <-s/-i> <output_file> <input_files...>");
@@ -28,7 +27,7 @@ public class FileMergeSorterApp {
 
         int counter = 1;
 
-        String sortMode = DATA_MODE_STRING;
+        String sortMode = SORT_MODE_ASCENDING;
         String dataType = null;
         String outputFile = "output.txt";
 
@@ -51,20 +50,17 @@ public class FileMergeSorterApp {
             throw new ValidationException("Error. Insufficient arguments passed");
         }
 
-        List<String> data = arguments.subList(counter, arguments.size())
-                .stream()
-                .flatMap(fileName -> FileReader.read(INPUT_DIRECTORY + fileName).stream())
+        List<String> filePaths = arguments.subList(counter, arguments.size()).stream()
+                .map(path -> INPUT_DIRECTORY + path)
                 .collect(Collectors.toList());
 
         assert dataType != null;
         if (dataType.equals(DATA_MODE_INTEGER)) {
-            List<Integer> intData = data.stream()
-                    .map(Integer::valueOf)
-                    .collect(Collectors.toList());
-
-            FileWriter.write(OUTPUT_DIRECTORY + outputFile, MergeSort.sort(intData, sortMode));
+            List<Integer> intData = MergeSort.sort(filePaths, sortMode, Integer::valueOf);
+            FileWriter.write(OUTPUT_DIRECTORY + outputFile, intData);
         } else if (dataType.equals(DATA_MODE_STRING)) {
-            FileWriter.write(OUTPUT_DIRECTORY + outputFile, MergeSort.sort(data, sortMode));
+            List<String> stringData = MergeSort.sort(filePaths, sortMode, s -> s);
+            FileWriter.write(OUTPUT_DIRECTORY + outputFile, stringData);
         } else {
             log.error("Invalid data type. Please use -s for strings or -i for integers.");
             throw new ValidationException("Invalid data type. Please use -s for strings or -i for integers.");
