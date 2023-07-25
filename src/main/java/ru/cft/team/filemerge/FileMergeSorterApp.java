@@ -2,8 +2,6 @@ package ru.cft.team.filemerge;
 
 import lombok.extern.slf4j.Slf4j;
 import ru.cft.team.filemerge.exception.ValidationException;
-import ru.cft.team.filemerge.util.FileReader;
-import ru.cft.team.filemerge.util.FileWriter;
 import ru.cft.team.filemerge.util.MergeSort;
 
 import java.util.List;
@@ -14,7 +12,7 @@ import static ru.cft.team.filemerge.util.Constant.*;
 @Slf4j
 public class FileMergeSorterApp {
     public static void main(String[] args1) {
-        String[] args = {"-s", "out.txt", "in1.txt", "in2.txt", "in3.txt"};
+        String[] args = {"-d", "-i", "out.txt", "in1.txt", "in2.txt", "in3.txt"};
 
         List<String> arguments = List.copyOf(List.of(args));
 
@@ -56,11 +54,9 @@ public class FileMergeSorterApp {
 
         assert dataType != null;
         if (dataType.equals(DATA_MODE_INTEGER)) {
-            List<Integer> intData = MergeSort.sort(filePaths, sortMode, Integer::valueOf);
-            FileWriter.write(OUTPUT_DIRECTORY + outputFile, intData);
+            MergeSort.sort(filePaths, sortMode, Integer::valueOf, OUTPUT_DIRECTORY + outputFile);
         } else if (dataType.equals(DATA_MODE_STRING)) {
-            List<String> stringData = MergeSort.sort(filePaths, sortMode, s -> s);
-            FileWriter.write(OUTPUT_DIRECTORY + outputFile, stringData);
+            MergeSort.sort(filePaths, sortMode, s -> s, OUTPUT_DIRECTORY + outputFile);
         } else {
             log.error("Invalid data type. Please use -s for strings or -i for integers.");
             throw new ValidationException("Invalid data type. Please use -s for strings or -i for integers.");
