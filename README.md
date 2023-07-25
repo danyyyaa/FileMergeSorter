@@ -62,9 +62,9 @@ mvn clean package
 5. Примеры запуска:
 ```
 java -jar target/FileMergeSorter-1.0-SNAPSHOT.jar -i out.txt in1.txt in2.txt in3.txt (для целых чисел по возрастанию)
-java -jar target/FileMergeSorter-1.0-SNAPSHOT.jar -a -s out.txt in1.txt in2.txt in3.txt (для строк по возрастанию)
+java -jar target/FileMergeSorter-1.0-SNAPSHOT.jar -a -s out.txt in1s.txt in2s.txt in3s.txt (для строк по возрастанию)
 java -jar target/FileMergeSorter-1.0-SNAPSHOT.jar -d -i out.txt in1.txt in2.txt in3.txt (для целых чисел по убыванию)
-java -jar target/FileMergeSorter-1.0-SNAPSHOT.jar -d -s out.txt in1.txt in2.txt in3.txt (для строк по убыванию)
+java -jar target/FileMergeSorter-1.0-SNAPSHOT.jar -d -s out.txt in1s.txt in2s.txt in3s.txt (для строк по убыванию)
 ```
 ---
 
