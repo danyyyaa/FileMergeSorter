@@ -53,7 +53,7 @@ git clone git@github.com:danyyyaa/FileMergeSorter.git
 
 2. Установите Apache Maven по ссылке: https://maven.apache.org/download.cgi
    
-3. Запустите коммандную строку и перейдите в коррень директории с проектом.
+3. Запустите коммандную строку и перейдите в корень директории с проектом.
    
 4. Соберите проект:
 ```
@@ -75,25 +75,25 @@ JUnit Jupiter API: Фреймворк для тестирования на яз�
 * Идентификатор артефакта: junit-jupiter-api
 * Версия: 5.10.0
 * Maven Central: junit-jupiter-api-5.10.0.jar
-* Ссылка: https://central.sonatype.com/artifact/org.junit.jupiter/junit-jupiter-api/5.10.0?smo=true
+* Ссылка: https://junit.org/junit5/
   
 Lombok: Библиотека, которая помогает уменьшить количество шаблонного кода в классах Java.
 * Идентификатор группы: org.projectlombok
 * Идентификатор артефакта: lombok
 * Версия: 1.18.28
 * Maven Central: lombok-1.18.28.jar
-* Ссылка: https://central.sonatype.com/artifact/org.projectlombok/lombok/1.18.28?smo=true
+* Ссылка: https://projectlombok.org/
   
 SLF4J API: Простой фасад для различных библиотек логирования.
 * Идентификатор группы: org.slf4j
 * Идентификатор артефакта: slf4j-api
 * Версия: 1.7.32
 * Maven Central: slf4j-api-1.7.32.jar
-* Ссылка: https://central.sonatype.com/artifact/org.slf4j/slf4j-api/1.7.32?smo=true
+* Ссылка: https://www.slf4j.org/
   
 Logback Classic: Реализация API SLF4J для логирования.
 * Идентификатор группы: ch.qos.logback
 * Идентификатор артефакта: logback-classic
 * Версия: 1.2.9
 * Maven Central: logback-classic-1.2.9.jar
-* Ссылка: https://central.sonatype.com/artifact/ch.qos.logback/logback-classic/1.2.9?smo=true
+* Ссылка: https://logback.qos.ch/
