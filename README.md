@@ -46,20 +46,22 @@
 
 В проекте используется 11 версия java
 
-1. Клонируйте репозиторий проекта на свою локальную машину:
+1. Установите Java Development Kit (JDK) версии 11 или выше.
+
+2. Клонируйте репозиторий проекта на свою локальную машину:
 ```
 git clone git@github.com:danyyyaa/FileMergeSorter.git
 ```
 
-2. Установите Apache Maven по ссылке: https://maven.apache.org/download.cgi
+3. Установите Apache Maven по ссылке: https://maven.apache.org/download.cgi
    
-3. Запустите коммандную строку и перейдите в корень директории с проектом.
+4. Запустите коммандную строку и перейдите в корень директории с проектом.
    
-4. Соберите проект:
+5. Соберите проект:
 ```
 mvn clean package
 ```
-5. Примеры запуска:
+6. Примеры запуска:
 ```
 java -jar target/FileMergeSorter-1.0-SNAPSHOT.jar -i out.txt in1.txt in2.txt in3.txt (для целых чисел по возрастанию)
 java -jar target/FileMergeSorter-1.0-SNAPSHOT.jar -a -s out.txt in1s.txt in2s.txt in3s.txt (для строк по возрастанию)
